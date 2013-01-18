@@ -1,6 +1,24 @@
 from distutils.core import setup
 from distutils.extension import Extension
-from Cython.Distutils import build_ext
+
+
+use_cython = True
+try:
+    from Cython.Distutils import build_ext
+except ImportError, e:
+    print e
+    use_cython = False
+
+
+cmdclass = {}
+ext_modules = []
+
+if use_cython:
+    ext_modules.append(Extension("coal.libevent", ["cython/libevent.pyx"]))
+    cmdclass['build_ext'] = build_ext
+else:
+    ext_modules.append(Extension("coal.libevent", ["cython/libevent.c"]))
+
 
 setup(
     name='coal',
@@ -10,8 +28,8 @@ setup(
     author_email='jeffober@gmail.com',
     url='',
 
-    cmdclass = {'build_ext': build_ext},
-    ext_modules = [
-        Extension("libevent", ["libevent.pyx"], libraries=['event']),
-    ]
+    packages=['coal', 'coal.libevent'],
+    cmdclass = cmdclass,
+    ext_modules = ext_modules,
 )
+

@@ -3,4 +3,5 @@ include LICENSE
 include README.md
 include setup.py
 include tox.ini
-recursive-include coal/ *
+recursive-include coal *
+recursive-include cython *

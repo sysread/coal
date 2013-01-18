@@ -230,4 +230,3 @@ cdef class Signal(Event):
 
     cdef trigger(self, signal, mask):
         self.loop._callback(self, self.callback, signal, mask)
-
